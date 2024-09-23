@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\CartController;
+use App\Http\Controllers\APi\CategoryController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\CustomerController;
@@ -43,4 +44,9 @@ Route::group([
     Route::post('/update/{id}',[CartController::class,'update'])->middleware('jwt.auth');
     Route::post('/delete/{id}',[CartController::class,'destroy'])->middleware('jwt.auth');
     Route::post('/create',[CartController::class,'store'])->middleware('jwt.auth');
+});
+
+Route::group(['prefix' => 'cate'],function(){
+    
+    Route::get('/getall',[CategoryController::class,'GetAll']);
 });
