@@ -103,6 +103,7 @@ class CustomerController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+    
     public function destroy($id)
     {
         $result = $this->customerRepository->DeleteUser($id);

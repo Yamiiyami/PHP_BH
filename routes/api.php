@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\CartController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\CustomerController;
@@ -18,10 +19,6 @@ use App\Models\Product;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
-
 Route::apiResource('customer',CustomerController::class);
 Route::apiResource('product',ProductController::class);
 // Route::get('product/category/{id}',[ProductController::class,'GetByIdCate']);
@@ -29,12 +26,21 @@ Route::apiResource('product',ProductController::class);
 Route::group([
     'namespace' => 'App\Http\Controllers',
     'prefix' => 'auth'
-
 ], function ($router) {
-
     Route::post('/login', [AuthController::class,'login']);
     Route::post('/logout', [AuthController::class,'logout']);
     // Route::post('refresh', 'AuthController@refresh');
     Route::get('/profile', [AuthController::class,'infor'])->middleware('jwt.auth');
+});
 
+
+Route::group([
+    'prefix' => 'cart'
+],function ($router){
+
+    Route::get('/getall',[CartController::class,'index']);
+    Route::get('/getbyid/{id}',[CartController::class,'show']);
+    Route::post('/update/{id}',[CartController::class,'update'])->middleware('jwt.auth');
+    Route::post('/delete/{id}',[CartController::class,'destroy'])->middleware('jwt.auth');
+    Route::post('/create',[CartController::class,'store'])->middleware('jwt.auth');
 });

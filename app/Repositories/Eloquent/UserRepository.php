@@ -43,7 +43,6 @@ class UserRepository implements IUserRepository{
         catch(\Exception $e){
             return ['success' => false, 'message' => 'lỗi khi sửa người dùng: '. $e->getMessage()];
         }
-
     }
 
     public function DeleteUser($id){

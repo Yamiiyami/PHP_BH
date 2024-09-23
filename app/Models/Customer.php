@@ -21,9 +21,7 @@ class Customer extends Authenticatable implements JWTSubject
     }
     public function getJWTCustomClaims()
     {
-        return [
-            'role_id' => $this->role_id,
-        ];
+        return [];
     }
 
     public function cart() : HasMany

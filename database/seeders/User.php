@@ -15,6 +15,7 @@ class User extends Seeder
      */
     public function run()
     {
+        
         $user = new Customer();
         $user->name = 'User2';
         $user->username = 'User2';
@@ -24,5 +25,6 @@ class User extends Seeder
         $user->status = 'enable';
         $user->role_id = 1;
         $user->save();
+        
     }
 }

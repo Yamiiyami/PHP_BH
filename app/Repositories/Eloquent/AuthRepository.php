@@ -13,11 +13,9 @@ class AuthRepository implements IAuthRepository{
             return $this->respondWithToken($token);
         }
         return response()->json(['error' => 'Unauthorized'], 401);
-
     }
 
     public function logout(){
-
         try{
             Auth::guard('api')->logout();
             return response()->json(['message' => 'Successfully logged out']);
