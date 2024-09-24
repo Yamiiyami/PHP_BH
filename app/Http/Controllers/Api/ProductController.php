@@ -6,15 +6,18 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreProductRequest;
 use App\Repositories\Contracts\IProductRepository;
 use App\Models\Product;
+use App\Repositories\Contracts\IPictureRepository;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpKernel\Event\ResponseEvent;
 
 class ProductController extends Controller
 {
     protected $product; 
-    public function __construct(IProductRepository $product)
+    protected $imageRepository;
+    public function __construct(IProductRepository $product, IPictureRepository $imageRepository)
     {
         $this->product = $product;
+        $this->imageRepository = $imageRepository;
     }
 
     public function index()
@@ -26,10 +29,22 @@ class ProductController extends Controller
     public function store(StoreProductRequest $request)
     {
         $product = $this->product->Add($request->validated());
+        if($request->hasFile('image')){
+            $this->uploadImage($request,$product->id);
+        }
+
+
         if(!$product){
             return response()->json(['message' => 'tạo thất bại'],400);
         }
         return response()->json(['message' => 'tạo thành công', 'product' => $product],201);
+    }
+
+    public function getbyidcate($id){
+        return $this->product->GetByIdCate($id);
+    }
+    public function uploadImage(Request $request, $id){
+        return $this->imageRepository->uploadImage($request,$id);
     }
 
     public function show($id)

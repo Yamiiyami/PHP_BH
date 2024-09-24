@@ -21,8 +21,18 @@ use App\Models\Product;
 */
 
 Route::apiResource('customer',CustomerController::class);
-Route::apiResource('product',ProductController::class);
-// Route::get('product/category/{id}',[ProductController::class,'GetByIdCate']);
+
+Route::group([
+    'prefix' => 'product'
+], function ($router) {
+    Route::get('/getall', [ProductController::class,'index']);
+    Route::get('/getbyid/{id}', [ProductController::class,'show']);
+    Route::get('/getbyidcate/{id}', [ProductController::class,'getbyidcate']);
+    Route::post('/create', [ProductController::class,'store']);
+    Route::post('/update/{id}', [ProductController::class,'update']);
+    Route::post('/remove/{id}', [ProductController::class,'destroy']);
+    Route::post('/product/{id}/upload-image', [ProductController::class, 'uploadImage']);
+});
 
 Route::group([
     'namespace' => 'App\Http\Controllers',
@@ -47,6 +57,10 @@ Route::group([
 });
 
 Route::group(['prefix' => 'cate'],function(){
-    
+
     Route::get('/getall',[CategoryController::class,'GetAll']);
 });
+
+
+
+
