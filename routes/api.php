@@ -31,7 +31,7 @@ Route::group([
     Route::post('/create', [ProductController::class,'store']);
     Route::post('/update/{id}', [ProductController::class,'update']);
     Route::post('/remove/{id}', [ProductController::class,'destroy']);
-    Route::post('/product/{id}/upload-image', [ProductController::class, 'uploadImage']);
+    Route::post('/{id}/upload-image', [ProductController::class, 'uploadImage']);
 });
 
 Route::group([
