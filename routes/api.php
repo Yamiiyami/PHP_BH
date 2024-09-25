@@ -40,8 +40,8 @@ Route::group([
 ], function ($router) {
     Route::post('/login', [AuthController::class,'login']);
     Route::post('/logout', [AuthController::class,'logout']);
-    // Route::post('refresh', 'AuthController@refresh');
     Route::get('/profile', [AuthController::class,'infor'])->middleware('jwt.auth');
+    // Route::post('refresh', 'AuthController@refresh');
 });
 
 

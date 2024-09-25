@@ -8,7 +8,7 @@ use App\Repositories\Contracts\IProductRepository;
 class ProductRepository implements IProductRepository{
 
     public function GetAll(){
-        return Product::all();
+        return Product::with('images')->get();
     }
     
     public function GetById($id){
@@ -16,7 +16,7 @@ class ProductRepository implements IProductRepository{
     } 
 
     public function GetByIdCate($id){
-        $products = Product::where('cate_id',$id)->get();
+        $products = Product::with('images')->where('cate_id',$id)->get();
         return $products;
     }
 
@@ -33,6 +33,7 @@ class ProductRepository implements IProductRepository{
     }
 
     public function Delete($id){
+        
         $product = Product::find($id);
         $product->delete();
         return $product;
