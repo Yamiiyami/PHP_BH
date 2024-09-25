@@ -3,12 +3,14 @@
 namespace App\Providers;
 
 use App\Repositories\Contracts\IAuthRepository;
+use App\Repositories\Contracts\ICartInforRepository;
 use App\Repositories\Contracts\ICartRepository;
 use App\Repositories\Contracts\ICategoryRepository;
 use App\Repositories\Contracts\IPictureRepository;
 use App\Repositories\Contracts\IProductRepository;
 use App\Repositories\Contracts\IUserRepository;
 use App\Repositories\Eloquent\AuthRepository;
+use App\Repositories\Eloquent\CartInforRepository;
 use App\Repositories\Eloquent\CartRepository;
 use App\Repositories\Eloquent\CategoryRepository;
 use App\Repositories\Eloquent\PictureRepository;
@@ -31,6 +33,8 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(IAuthRepository::class, AuthRepository::class);
         $this->app->bind(ICategoryRepository::class,CategoryRepository::class);
         $this->app->bind(IPictureRepository::class,PictureRepository::class);
+        $this->app->bind(ICartInforRepository::class,CartInforRepository::class);
+        
     }
 
     /**
