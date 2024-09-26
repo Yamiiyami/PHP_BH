@@ -23,13 +23,19 @@ class CartRepository implements ICartRepository{
     }
 
     public function Add(array $cart){
-        return DB::table('carts')->insert([
-            'address' => $cart['address'],
-            'notes' => $cart['notes'],
-            'phone' => $cart['phone'],
-            'create_at' => Carbon::now(),
-            'customer_id' => $cart['customer_id'],
-        ]);
+        try{
+            $id = DB::table('carts')->insertGetId([
+                'address' => $cart['address'],
+                'notes' => $cart['notes'],
+                'phone' => $cart['phone'],
+                'create_at' => Carbon::now(),
+                'customer_id' => $cart['customer_id'],
+            ]);
+            return $id;
+        }catch(\Exception $e){
+            return response()->json(['message'=>'không thêm được giỏ hàng','error' => $e->getMessage()],500);
+        }
+        
     }
 
     public function Update(array $cart,$id){

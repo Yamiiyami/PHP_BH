@@ -44,7 +44,6 @@ Route::group([
     // Route::post('refresh', 'AuthController@refresh');
 });
 
-
 Route::group([
     'prefix' => 'cart'
 ],function ($router){

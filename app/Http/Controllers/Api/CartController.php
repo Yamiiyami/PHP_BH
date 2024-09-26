@@ -4,16 +4,23 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreCartRepuset;
+use App\Repositories\Contracts\ICartInforRepository;
 use App\Repositories\Contracts\ICartRepository;
+use Exception;
+use Facade\Ignition\QueryRecorder\Query;
 use Illuminate\Cache\Repository;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
 class CartController extends Controller
 {
     protected $cartrepository;
-    public function __construct(ICartRepository $cartrepository){
+    protected $cartinforrepository;
+    public function __construct(ICartRepository $cartrepository,ICartInforRepository $cartinforrepository){
         $this->cartrepository = $cartrepository;
+        $this->cartinforrepository = $cartinforrepository;
+
     }
 
     public function index()
@@ -22,16 +29,33 @@ class CartController extends Controller
         return response()->json($cart);
     }
 
-    public function store(Request $request)
+    public function store(StoreCartRepuset $request)
     {
-        //$cart = $request->validated();
-        $user = auth()->user();
-        $request['customer_id'] = $user->id;
-        $result = $this->cartrepository->Add($request->all());
-        if($result){
-            return response()->json(['message','tạo thành công'],201);
-        }
-        return response()->json(['error','tạo thất bại'],400);
+        DB::beginTransaction();
+        try{
+            $user = auth()->user();
+            $request['customer_id'] = $user->id;
+            $idcart = $this->cartrepository->Add($request->only(['address', 'notes', 'phone', 'customer_id']));
+            
+            $products = $request->input('products');
+
+            if(!$products){
+                throw new Exception('không có sản phẩm');
+            }
+
+            foreach($products as $product){
+                $productinfor = DB::table('products')->where('id',$product['product_id'])->first();
+                $product['price'] = $productinfor->price;
+                if(!$this->cartinforrepository->Creat($product,$idcart)){
+                    throw new Exception('không thể thêm sản phẩm vào giỏ');
+                }
+            }
+            DB::commit();
+            return response()->json(['message' => 'thêm sản phẩm thành công'],201);
+        }catch(Exception $e){
+            DB::rollBack();
+            return response()->json(['message' => 'không thêm được sản phẩm', 'error' => $e->getMessage()],500);
+        } 
     }
 
 
