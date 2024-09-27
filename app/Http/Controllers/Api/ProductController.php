@@ -32,8 +32,7 @@ class ProductController extends Controller
         if($request->hasFile('image')){
             $this->uploadImage($request,$product->id);
         }
-
-
+        
         if(!$product){
             return response()->json(['message' => 'tạo thất bại'],400);
         }

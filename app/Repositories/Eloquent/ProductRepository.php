@@ -12,7 +12,7 @@ class ProductRepository implements IProductRepository{
     }
     
     public function GetById($id){
-        return Product::findOrFail($id);
+        return Product::with('images')->findOrFail($id);
     } 
 
     public function GetByIdCate($id){

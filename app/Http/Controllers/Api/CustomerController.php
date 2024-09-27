@@ -28,17 +28,10 @@ class CustomerController extends Controller
      }
     public function index()
     {
-        // 
         $customer = $this->customerRepository->GetAllUser();
         return response()->json($customer);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(StoreCustomerRequest $request)
     {
         try{
@@ -55,12 +48,6 @@ class CustomerController extends Controller
         }
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
         try {
@@ -71,13 +58,6 @@ class CustomerController extends Controller
         }
     }
   
-            /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(UpdateCustomerRequest $request, $id)
     {
         try{
@@ -95,14 +75,6 @@ class CustomerController extends Controller
         }
 
     }
-    
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     
     public function destroy($id)
     {
