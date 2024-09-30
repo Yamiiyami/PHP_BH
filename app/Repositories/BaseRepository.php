@@ -15,6 +15,11 @@ class BaseRepository
     {
         return $this->model->all();
     }
+    
+    public function allWith($relations = [])
+    {
+        return $this->model::with($relations)->get();
+    }
 
     public function find($id)
     {
