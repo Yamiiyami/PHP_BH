@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class image extends Model
 {
     use HasFactory;
+    protected $fillable = ['image','product_id'];
     public function products() : BelongsTo{
         return $this->belongsTo(product::class);
     }

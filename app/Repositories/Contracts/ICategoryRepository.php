@@ -3,10 +3,11 @@ namespace App\Repositories\Contracts;
 
 
 interface ICategoryRepository{
-    public function GetAll();
-    public function GetById();
-    public function Create();
-    public function Update();
-    public function Remove();
+    
+    public function all();
+    public function find($id);
+    public function create(array $data);
+    public function update($id, array $data);
+    public function delete($id);
 
 }

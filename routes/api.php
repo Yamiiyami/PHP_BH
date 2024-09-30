@@ -3,22 +3,11 @@
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\CartController;
 use App\Http\Controllers\APi\CategoryController;
-use Illuminate\Http\Request;
+
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\CustomerController;
 use App\Http\Controllers\Api\ProductController;
-use App\Models\Product;
 
-/*
-|--------------------------------------------------------------------------
-| API Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| is assigned the "api" middleware group. Enjoy building your API!
-|
-*/
 
 Route::apiResource('customer',CustomerController::class);
 
@@ -29,8 +18,8 @@ Route::group([
     Route::get('/getbyid/{id}', [ProductController::class,'show']);
     Route::get('/getbyidcate/{id}', [ProductController::class,'getbyidcate']);
     Route::post('/create', [ProductController::class,'store']);
-    Route::post('/update/{id}', [ProductController::class,'update']);
-    Route::post('/remove/{id}', [ProductController::class,'destroy']);
+    Route::put('/update/{id}', [ProductController::class,'update']);
+    Route::delete('/remove/{id}', [ProductController::class,'destroy']);
     Route::post('/{id}/upload-image', [ProductController::class, 'uploadImage']);
 });
 

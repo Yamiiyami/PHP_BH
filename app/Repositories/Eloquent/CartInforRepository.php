@@ -3,26 +3,16 @@
 namespace App\Repositories\Eloquent;
 
 use App\Models\cartinfo;
+use App\Repositories\BaseRepository;
 use App\Repositories\Contracts\ICartInforRepository;
 use Exception;
 use Illuminate\Support\Facades\DB;
 
-class CartInforRepository implements ICartInforRepository
+class CartInforRepository extends BaseRepository implements ICartInforRepository
 {
-    public function GetByIdCart($id)
+    public function __construct(cartinfo $model)
     {
-        cartinfo::where('carts_id', $id)->get();
+        parent::__construct($model);
     }
 
-    public function Delete($id) {}
-
-    public function Creat($product, $cart_id)
-    {
-        return DB::table('cartinfos')->insert([
-            'quantity' => $product['quantity'],
-            'price' => $product['price'],
-            'product_id' => $product['product_id'],
-            'carts_id' => $cart_id,
-        ]);
-    }
 }

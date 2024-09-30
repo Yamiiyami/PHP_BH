@@ -3,22 +3,15 @@
 namespace App\Repositories\Eloquent;
 
 use App\Models\Category;
+use App\Repositories\BaseRepository;
 use App\Repositories\Contracts\ICategoryRepository;
 
-class CategoryRepository implements ICategoryRepository{
-    public function GetAll(){
-        return Category::all();
-    }
-    public function GetById(){
+class CategoryRepository extends BaseRepository implements ICategoryRepository{
 
+    public function __construct(Category $model)
+    {
+        parent::__construct($model);
     }
-    public function Create(){
 
-    }
-    public function Update(){
-
-    }
-    public function Remove(){
-        
-    }
+    
 }

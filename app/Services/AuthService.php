@@ -1,11 +1,19 @@
 <?php
 
-namespace App\Repositories\Eloquent;
+namespace App\Services;
+
+use App\Repositories\Eloquent\UserRepository;
+use Exception;
 use Illuminate\Support\Facades\Auth;
-use App\Repositories\Contracts\IAuthRepository;
+use Illuminate\Support\Facades\Hash;
 
-
-class AuthRepository implements IAuthRepository{
+class AuthService 
+{
+    protected $userRepository;
+    public function __construct(UserRepository $userRepository)
+    {
+        $this->userRepository = $userRepository;
+    }
 
     public function login(string $email,string $password)
     {
@@ -23,7 +31,6 @@ class AuthRepository implements IAuthRepository{
         catch(\Exception $e){
             return response()->json(['error' => $e->getMessage()]);
         }
-
     }
 
     public function infor() {
@@ -43,4 +50,16 @@ class AuthRepository implements IAuthRepository{
         ]);
     }
 
+    public function register($register){
+        try{
+            $result = $this->userRepository->create([
+                'email' => $register['email'],
+                'password' => Hash::make($register['password']),
+                'phone' => $register['phone'],
+            ]);
+            return response()->json(['message'=>'taọ thành công'],201);
+        }catch(Exception $e){
+            return response()->json(['error' => $e->getMessage()],500);
+        }
+    }
 }

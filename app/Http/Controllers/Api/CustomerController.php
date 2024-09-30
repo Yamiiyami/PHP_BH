@@ -6,64 +6,67 @@ use App\Http\Controllers\Controller;
 use App\Models\Customer;
 use App\Http\Requests\StoreCustomerRequest;
 use App\Http\Requests\UpdateCustomerRequest;
-use App\Repositories\Contracts\IUserRepository;
-use App\Repositories\Contracts\UserRepositoryInterface;
+use App\Services\UserService;
 use DateTime;
 use Illuminate\Http\Request;
 use Symfony\Component\Console\Input\Input;
 use Carbon\Carbon;
+use Exception;
 
 class CustomerController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
 
-     protected $customerRepository;
-     public function __construct(IUserRepository $customerRepository)
+     protected $userService;
+     public function __construct(UserService $userService)
      {
-        $this->customerRepository = $customerRepository;
+        $this->userService = $userService;
      }
+
     public function index()
     {
-        $customer = $this->customerRepository->GetAllUser();
+        $customer = $this->userService->getAll();
         return response()->json($customer);
-    }
-
-    public function store(StoreCustomerRequest $request)
-    {
-        try{
-            $result = $this->customerRepository->CreateUser($request->validated());
-            if($result){
-                return response()->json(['message' => 'tạo thành công' , 
-            'customer' => $result], 201);
-            } else{
-                return response()->json(['message' => 'tạo thất bại'], 422);
-            }
-        }
-        catch( \Exception $e){
-            return response()->json(['message' => 'Đã xảy ra lỗi', 'error' => $e->getMessage()],500);
-        }
     }
 
     public function show($id)
     {
         try {
-            $customer = $this->customerRepository->getById($id);
+            $customer = $this->userService->getById($id);
             return response()->json(['user' => $customer]);
-        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
-            return response()->json(['message' => 'User not found'], 404);
+        } catch (Exception $e) {
+            return response()->json(['message' => 'User not found', 'error' => $e->getMessage()], 404);
         }
     }
-  
+
+    public function store(StoreCustomerRequest $request)
+    {
+        try {
+            $data = $request->validated();
+            $result = $this->userService->create($data);
+            
+            if ($result) {
+                return response()->json([
+                    'message' => 'Tạo thành công',
+                    'customer' => $result
+                ], 201);
+            } else {
+                return response()->json(['message' => 'Tạo thất bại'], 400); 
+            }
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Đã xảy ra lỗi',
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
+    
     public function update(UpdateCustomerRequest $request, $id)
     {
         try{
-            $result = $this->customerRepository->UpdateUser($request->validated(),$id);
-            if (!$result['success'] ) {
-                return response()->json(['message' => 'Cập nhật thất bại'], 400);
+            $data = $request->validate();
+            $result = $this->userService->update($id,$data);
+            if (!$result) {
+                return response()->json(['message' => 'Cập nhật thất bại'], 500);
             }
             return response()->json(['message' => 'Cập nhật thành công'], 200);
         }
@@ -78,9 +81,9 @@ class CustomerController extends Controller
     
     public function destroy($id)
     {
-        $result = $this->customerRepository->DeleteUser($id);
-        if(!$result['success']){
-            return response()->json(["message" => "xoá thất bại, ko tìm thấy user"],404);
+        $result = $this->userService->delete($id);
+        if(!$result){
+            return response()->json(["message" => "xoá thất bại"],404);
         }
         return response()->json(["message"=>"xoá thành công"],200);
     }
