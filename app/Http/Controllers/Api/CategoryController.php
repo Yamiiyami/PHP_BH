@@ -19,6 +19,4 @@ class CategoryController extends Controller
         return $this->cateService->getAll();
     }
 
-    
-
 }

@@ -16,7 +16,6 @@ class CartController extends Controller
     public function __construct(CartService $cartService,CartInforService $cartInforService){
         $this->cartService = $cartService;
         $this->cartInforService = $cartInforService;
-
     }
 
     public function index()
@@ -29,7 +28,6 @@ class CartController extends Controller
     {
         $this->cartService->create($request->only(['address','notes', 'phone']), $request['products']);
     }
-
 
     public function show($id)
     {
