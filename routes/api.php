@@ -30,7 +30,7 @@ Route::group([
     Route::post('/login', [AuthController::class,'login']);
     Route::post('/logout', [AuthController::class,'logout']);
     Route::get('/profile', [AuthController::class,'infor'])->middleware('jwt.auth');
-    // Route::post('refresh', 'AuthController@refresh');
+    Route::post('/register', [AuthController::class,'Register']);
 });
 
 Route::group([

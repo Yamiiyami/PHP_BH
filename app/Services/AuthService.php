@@ -50,16 +50,19 @@ class AuthService
         ]);
     }
 
-    public function register($register){
+    public function register(array $register){
         try{
-            $result = $this->userRepository->create([
+            $this->userRepository->create([
+                'name' => $register['name'],
+                'username' => explode('@',  $register['email'])[0],
                 'email' => $register['email'],
                 'password' => Hash::make($register['password']),
+                'role_id' => 2,
                 'phone' => $register['phone'],
             ]);
             return response()->json(['message'=>'taọ thành công'],201);
         }catch(Exception $e){
-            return response()->json(['error' => $e->getMessage()],500);
+            throw new Exception('không đăng ký' . $e->getMessage());
         }
     }
 }

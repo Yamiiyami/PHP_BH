@@ -29,11 +29,11 @@ class AuthController extends Controller{
         return $this->authService->infor();
     }
 
-    public function Register($request){
+    public function Register(Request $request){
         try{
-            $this->authService->register($request);
+            $this->authService->register($request->all());
         }catch(Exception $e){
-            return response()->json(['error' => $e->getMessage()]);
+            return response()->json(['error' => $e->getMessage()],500);
         }
 
     }
