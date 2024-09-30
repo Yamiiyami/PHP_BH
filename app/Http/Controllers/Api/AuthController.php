@@ -32,6 +32,7 @@ class AuthController extends Controller{
     public function Register(Request $request){
         try{
             $this->authService->register($request->all());
+            return response()->json(['message' => 'tạo thành công'],201);
         }catch(Exception $e){
             return response()->json(['error' => $e->getMessage()],500);
         }
