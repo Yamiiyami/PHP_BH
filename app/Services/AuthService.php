@@ -58,7 +58,6 @@ class AuthService
                 'email' => $register['email'],
                 'password' => Hash::make($register['password']),
                 'role_id' => 2,
-                'phone' => $register['phone'],
             ]);
             return response()->json(['message'=>'taọ thành công'],201);
         }catch(Exception $e){
