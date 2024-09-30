@@ -15,15 +15,15 @@ class BaseRepository
     {
         return $this->model->all();
     }
-    
+
     public function allWith($relations = [])
     {
         return $this->model::with($relations)->get();
     }
 
-    public function find($id)
+    public function find($id,$relations=[])
     {
-        return $this->model->find($id);
+        return $this->model->with($relations)->find($id);
     }
 
     public function create(array $data)
@@ -50,14 +50,14 @@ class BaseRepository
         return false;
     }
 
-    public function findBy(string $column, $value)
+    public function findBy(string $column, $value, $relations=[])
     {
-        return $this->model->where($column, $value)->first();
+        return $this->model->with($relations)->where($column, $value)->first();
     }
 
-    public function findAllBy(string $column, $value)
+    public function findAllBy(string $column, $value,$relations=[])
     {
-        return $this->model->where($column, $value)->get();
+        return $this->model->with($relations)->where($column, $value)->get();
     }
 
     public function paginate(int $perPage = 15)

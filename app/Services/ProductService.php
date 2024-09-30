@@ -21,12 +21,12 @@ class ProductService
     
     public function getById($id)
     {
-        return $this->productRepository->find($id);
+        return $this->productRepository->find($id,'images');
     }
 
     public function getByIdCate($id)
     {
-        return $this->productRepository->findAllBy('cate_id',$id);
+        return $this->productRepository->findAllBy('cate_id',$id,'images');
     }
 
     public function create(array $data)
