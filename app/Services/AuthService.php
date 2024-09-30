@@ -57,11 +57,12 @@ class AuthService
                 'username' => explode('@',  $register['email'])[0],
                 'email' => $register['email'],
                 'password' => Hash::make($register['password']),
+                'phone' => '',
                 'role_id' => 2,
             ]);
             return response()->json(['message'=>'taọ thành công'],201);
         }catch(Exception $e){
-            throw new Exception('không đăng ký' . $e->getMessage());
+            throw new Exception('không đăng ký được' . $e->getMessage());
         }
     }
 }
