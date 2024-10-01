@@ -15,7 +15,6 @@ use Exception;
 
 class CustomerController extends Controller
 {
-
      protected $userService;
      public function __construct(UserService $userService)
      {

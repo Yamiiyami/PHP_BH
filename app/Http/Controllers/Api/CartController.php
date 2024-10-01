@@ -28,7 +28,7 @@ class CartController extends Controller
     {
         $this->cartService->create($request->only(['address','notes', 'phone']), $request['products']);
     }
-
+    
     public function show($id)
     {
         try{

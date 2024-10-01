@@ -16,5 +16,4 @@ class CartInforService {
         $this->cartinforRepository->create($data);
     }
 
-
 }

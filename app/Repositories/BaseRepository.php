@@ -11,14 +11,9 @@ class BaseRepository
         $this->model = $model;
     }
 
-    public function all()
+    public function all($relations = [])
     {
-        return $this->model->all();
-    }
-
-    public function allWith($relations = [])
-    {
-        return $this->model::with($relations)->get();
+        return $this->model->with($relations)->get();
     }
 
     public function find($id,$relations=[])
@@ -102,16 +97,6 @@ class BaseRepository
     public function exists(string $column, $value)
     {
         return $this->model->where($column, $value)->exists();
-    }
-
-    public function withRelations(array $relations)
-    {
-        return $this->model->with($relations)->get();
-    }
-
-    public function findWithRelations($id, array $relations)
-    {
-        return $this->model->with($relations)->find($id);
     }
 
     public function search(array $columns, string $keyword)

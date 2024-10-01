@@ -16,7 +16,7 @@ class ProductService
 
     public function getAll()
     {
-        return $this->productRepository->allWith('images');
+        return $this->productRepository->all('images');
     }
     
     public function getById($id)
@@ -27,6 +27,16 @@ class ProductService
     public function getByIdCate($id)
     {
         return $this->productRepository->findAllBy('cate_id',$id,'images');
+    }
+
+    public function paginate(int $perPage)
+    {
+        return $this->productRepository->paginate($perPage);
+    }
+
+    public function search(string $keyword) 
+    {
+        return $this->productRepository->search(['name'],$keyword);
     }
 
     public function create(array $data)

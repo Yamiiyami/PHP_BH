@@ -44,6 +44,14 @@ class ProductController extends Controller
          return $this->productService->getByIdCate($id);
     }
 
+    public function getPagein(Request $request){
+        return $this->productService->paginate($request->get('perPage',3));
+    }
+
+    public function getSearch(Request $request){
+        return $this->productService->search($request->get('search',''));
+    }
+    
     public function uploadImage(Request $request, $id){
         return $this->imageService->uploadImage($id,$request);
     }
