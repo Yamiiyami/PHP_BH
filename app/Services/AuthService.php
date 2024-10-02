@@ -18,6 +18,10 @@ class AuthService
     public function login(string $email,string $password)
     {
         if($token = auth('api')->attempt(['email' => $email,'password'=>$password])){
+            $user = auth('api')->user();
+            if($user->status !== 'enable'){
+                return response()->json(['error' => 'Account is inactive or banned'], 403);
+            }
             return $this->respondWithToken($token);
         }
         return response()->json(['error' => 'Unauthorized'], 401);

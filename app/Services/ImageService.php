@@ -22,26 +22,25 @@ class ImageService
     public function UploadImage($id, $fileImage)
     {
         DB::beginTransaction();
-        try{
+        try {
             $product = $this->productRepository->find($id);
             if (!$product) {
-                throw new Exception('không thấy sản phẩm');
+                throw new Exception('Không tìm thấy sản phẩm với ID: ' . $id);
             }
-            if ($fileImage->hasFile('image')) 
-            {
+            if ($fileImage->hasFile('image')) {
                 $imagePath = $fileImage->file('image')->store('images', 'public');
-                
-                return $this->imageRepository->create([
+                $this->imageRepository->create([
                     'image' => $imagePath,
                     'product_id' => $id,
                 ]);
+                DB::commit();
+                return response()->json(['message' => 'Thêm ảnh thành công', 'image_path' => $imagePath], 200);
+            } else {
+                throw new Exception('Không có file ảnh được tải lên');
             }
-
-            DB::commit();
-        }catch(Exception $e)
-        {
+        } catch (Exception $e) {
             DB::rollBack();
-            throw new Exception('lỗi không thêm được ảnh'.$e->getMessage());
+            throw new Exception('Lỗi: không thể thêm được ảnh. Chi tiết lỗi: ' . $e->getMessage());
         }
     }
 
@@ -56,15 +55,14 @@ class ImageService
             if (!Storage::disk('public')->delete($image->image)) {
                 throw new Exception('không xoá được trong file');
             }
-            if(!$this->imageRepository->delete($id)){
+            if (!$this->imageRepository->delete($id)) {
                 throw new Exception('không xoá được ảnh');
             }
             DB::commit();
             return response()->json(['message' => 'xoá ảnh thành công']);
         } catch (\Exception $e) {
             DB::rollBack();
-            throw new Exception('không xoá được ảnh'.$e->getMessage());
+            throw new Exception('không xoá được ảnh' . $e->getMessage());
         }
     }
-
 }
