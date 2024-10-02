@@ -4,7 +4,7 @@ namespace App\Repositories\Contracts;
 
 interface IProductRepository {
 
-    public function all();
+    public function all($relations = []);
     public function find($id);
     public function create(array $data);
     public function update($id, array $data);
