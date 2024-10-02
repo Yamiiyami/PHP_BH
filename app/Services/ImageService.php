@@ -21,6 +21,7 @@ class ImageService
 
     public function UploadImage($id, $fileImage)
     {
+        DB::beginTransaction();
         try{
             $product = $this->productRepository->find($id);
             if (!$product) {
@@ -29,13 +30,17 @@ class ImageService
             if ($fileImage->hasFile('image')) 
             {
                 $imagePath = $fileImage->file('image')->store('images', 'public');
+                
                 return $this->imageRepository->create([
                     'image' => $imagePath,
                     'product_id' => $id,
                 ]);
             }
+
+            DB::commit();
         }catch(Exception $e)
         {
+            DB::rollBack();
             throw new Exception('lỗi không thêm được ảnh'.$e->getMessage());
         }
     }

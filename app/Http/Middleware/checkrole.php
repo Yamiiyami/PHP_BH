@@ -8,19 +8,22 @@ use Illuminate\Support\Facades\DB;
 
 class checkrole
 {
-    /**
-     * Handle an incoming request.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure(\Illuminate\Http\Request): (\Illuminate\Http\Response|\Illuminate\Http\RedirectResponse)  $next
-     * @return \Illuminate\Http\Response|\Illuminate\Http\RedirectResponse
-     */
     public function handle(Request $request, Closure $next,$role)
     {
-        $user = auth()->user();
+        
+        if (!$user = auth()->user()) {
+            return response()->json(['error' => 'Unauthorized'], 401);
+        }
         $us = DB::table('customers')->find($user['id']);
-        if(!$user || $us->role !== $role){
-            return response()->json(['error' => 'Unauthorized'], 403);
+
+        if (!$us) {
+            return response()->json(['error' => 'User not found'], 404);
+        }
+
+        $roleName = DB::table('roles')->where('id', $us->role_id)->value('name');
+
+        if ($roleName !== $role) {
+            return response()->json(['error' => 'Forbidden'], 403);
         }
 
         return $next($request);

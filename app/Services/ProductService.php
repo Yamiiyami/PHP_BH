@@ -44,7 +44,7 @@ class ProductService
         try{
             return $this->productRepository->create($data);
         } catch(Exception $e){
-            throw new Exception('tạo không thành công'. $e->getMessage());
+            throw new Exception('tạo không thành công '. $e->getMessage());
         }
     }
 

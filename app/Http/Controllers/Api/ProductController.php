@@ -10,7 +10,7 @@ use App\Repositories\Contracts\IPictureRepository;
 use App\Services\ImageService;
 use App\Services\ProductService;
 use Illuminate\Http\Request;
-use Symfony\Component\HttpKernel\Event\ResponseEvent;
+
 
 class ProductController extends Controller
 {
@@ -31,11 +31,11 @@ class ProductController extends Controller
     public function store(StoreProductRequest $request)
     {
         $product = $this->productService->create($request->validated());
-        if($request->hasFile('image')){
-            $this->imageService->uploadImage($request,$product->id);
-        }
         if(!$product){
             return response()->json(['message' => 'tạo thất bại'],400);
+        }
+        if($request->hasFile('image')){
+            $this->imageService->uploadImage($request,$product->id);
         }
         return response()->json(['message' => 'tạo thành công', 'product' => $product],201);
     }

@@ -38,7 +38,7 @@ class CartController extends Controller
             return response()->json(['error' => 'không tìm thấy'. $e->getMessage()],404);
         }
     }
-
+    
     public function update(Request $request, $id)
     {
         $result = $this->cartService->update($request->all(),$id);

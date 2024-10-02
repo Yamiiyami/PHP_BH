@@ -62,7 +62,7 @@ class AuthService
             ]);
             return response()->json(['message'=>'taọ thành công'],201);
         }catch(Exception $e){
-            throw new Exception('không đăng ký được' . $e->getMessage());
+            throw new Exception('error : ' . $e->getMessage());
         }
     }
 }

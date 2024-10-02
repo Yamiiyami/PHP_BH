@@ -8,9 +8,18 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\CustomerController;
 use App\Http\Controllers\Api\ProductController;
 
+Route::group([
+    'namespace' => 'App\Http\Controllers',
+    'prefix' => 'customer'
+], function ($router) {
+    //jwt.role
+    Route::get('/getall', [CustomerController::class,'index']);
+    Route::get('/getbyid/{id}', [CustomerController::class,'show']);
+    Route::post('/create', [CustomerController::class,'infor'])->middleware('jwt.auth');
+    Route::put('/update', [CustomerController::class,'update']);
+    Route::delete('/delete', [CustomerController::class,'destroy']);
 
-Route::apiResource('customer',CustomerController::class);
-
+});
 Route::group([
     'prefix' => 'product'
 ], function ($router) {
@@ -18,11 +27,11 @@ Route::group([
     Route::get('/getbyid/{id}', [ProductController::class,'show']);
     Route::get('/getbyidcate/{id}', [ProductController::class,'getbyidcate']);
     Route::get('/paginate/{id}', [ProductController::class,'getPagein']);
-    Route::post('/create', [ProductController::class,'store']);
-    Route::put('/update/{id}', [ProductController::class,'update']);
-    Route::delete('/remove/{id}', [ProductController::class,'destroy']);
-    Route::post('/{id}/upload-image', [ProductController::class, 'uploadImage']);
     Route::get('/search',[ProductController::class,'getSearch']);
+    Route::post('/create', [ProductController::class,'store'])->middleware('jwt.role:Admin');
+    Route::put('/update/{id}', [ProductController::class,'update'])->middleware('jwt.role:Admin');
+    Route::delete('/remove/{id}', [ProductController::class,'destroy'])->middleware('jwt.role:Admin');
+    Route::post('/{id}/upload-image', [ProductController::class, 'uploadImage'])->middleware('jwt.role:Admin');
 });
 
 Route::group([
