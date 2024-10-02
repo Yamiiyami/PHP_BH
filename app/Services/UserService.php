@@ -31,7 +31,7 @@ class UserService {
             $data['password'] = Hash::make($data['password']);
             return $this->userRepository->create($data);
         } catch(Exception $e){
-            throw new Exception('tạo không thành công'. $e->getMessage());
+            throw new Exception('tạo không thành công '. $e->getMessage());
         }
     }
 
@@ -41,7 +41,23 @@ class UserService {
             $data['password'] = Hash::make($data['password']);
             return $this->userRepository->update($id,$data);
         } catch(Exception $e){
-            throw new Exception('sửa không thành công'. $e->getMessage());
+            throw new Exception('sửa không thành công '. $e->getMessage());
+        }
+    }
+
+    public function lockUser($id)  {
+        try{
+            $user = $this->userRepository->find($id);
+            if(!$user){
+                throw new Exception('không tìm thấy User');
+            }
+            
+            if( $this->userRepository->update($id,['status' => 'unable'])){
+                return true;
+            }
+            return false;
+        } catch(Exception $e){
+            throw new Exception('sửa không thành công '. $e->getMessage());
         }
     }
 

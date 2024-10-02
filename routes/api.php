@@ -16,6 +16,7 @@ Route::group([
     Route::get('/getall', [CustomerController::class,'index']);
     Route::get('/getbyid/{id}', [CustomerController::class,'show']);
     Route::post('/create', [CustomerController::class,'infor'])->middleware('jwt.auth');
+    Route::put('/lock/{id}', [CustomerController::class,'lockUser'])->middleware('jwt.role:Admin');
     Route::put('/update', [CustomerController::class,'update']);
     Route::delete('/delete', [CustomerController::class,'destroy']);
 

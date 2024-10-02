@@ -35,7 +35,7 @@ class ProductController extends Controller
             return response()->json(['message' => 'tạo thất bại'],400);
         }
         if($request->hasFile('image')){
-            $this->imageService->uploadImage($request,$product->id);
+            $this->imageService->uploadImage($product->id,$request);
         }
         return response()->json(['message' => 'tạo thành công', 'product' => $product],201);
     }

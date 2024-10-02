@@ -59,6 +59,14 @@ class CustomerController extends Controller
         }
     }
     
+    public function lockUser( $id){
+        if($this->userService->lockUser($id)){
+            return response()->json(['message'=>'sửa thành công'],200);
+        }
+        return response()->json(['message'=>'sửa thất bại'],500);
+ 
+    }
+
     public function update(UpdateCustomerRequest $request, $id)
     {
         try{
