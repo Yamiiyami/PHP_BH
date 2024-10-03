@@ -64,7 +64,13 @@ class CustomerController extends Controller
             return response()->json(['message'=>'sửa thành công'],200);
         }
         return response()->json(['message'=>'sửa thất bại'],500);
- 
+    }
+
+    public function unLock( $id){
+        if($this->userService->unLock($id)){
+            return response()->json(['message'=>'sửa thành công'],200);
+        }
+        return response()->json(['message'=>'sửa thất bại'],500);
     }
 
     public function update(UpdateCustomerRequest $request, $id)

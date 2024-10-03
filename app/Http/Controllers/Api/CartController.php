@@ -24,9 +24,13 @@ class CartController extends Controller
         return response()->json($cart);
     }
 
-    public function store(StoreCartRepuset $request)
+    public function store()
     {
-        $this->cartService->create($request->only(['address','notes', 'phone']), $request['products']);
+        try{
+            return $this->cartService->create();
+        }catch(Exception $e){
+            return response()->json('error : ' . $e->getMessage(),500);
+        }
     }
     
     public function show($id)

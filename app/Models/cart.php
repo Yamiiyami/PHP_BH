@@ -8,6 +8,10 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class cart extends Model
 {
+    protected $fillable = [
+        'customer_id',
+        'status',
+    ];
     use HasFactory;
 
     public function customer() : BelongsTo

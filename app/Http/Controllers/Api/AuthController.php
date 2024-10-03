@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\RegisterRequest;
 use App\Services\AuthService;
 use Exception;
 use Illuminate\Http\Request;
@@ -29,14 +30,15 @@ class AuthController extends Controller{
         return $this->authService->infor();
     }
 
-    public function Register(Request $request){
+    public function Register(Request $request)
+    {
         try{
-            $this->authService->register($request->all());
+            $this->authService->register($request->validate());
             return response()->json(['message' => 'tạo thành công'],201);
         }catch(Exception $e){
             return response()->json(['error' => $e->getMessage()],500);
         }
-
+        
     }
 
 

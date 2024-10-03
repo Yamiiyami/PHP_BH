@@ -67,7 +67,7 @@ class ProductController extends Controller
 
     public function update(Request $request, $id)
     {
-        $update = $this->productService->update($id, $request->all());
+        $update = $this->productService->update($id, $request->only(['name','description','quantity','price','color','cate_id']));
         if(!$update){
             return response()->json(['message' => 'xửa thất bại'],400);
         }

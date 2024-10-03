@@ -48,7 +48,7 @@ class ProductService
         }
     }
 
-    public function update($id, $data)
+    public function update($id,array $data)
     {
         try{
             return $this->productRepository->update($id,$data);

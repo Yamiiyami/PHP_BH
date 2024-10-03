@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class cartinfo extends Model
 {
+    protected $fillable = ['quantity','price','product_id','carts_id'];
     use HasFactory;
     public function product() : HasMany {
         return $this->hasMany(product::class);

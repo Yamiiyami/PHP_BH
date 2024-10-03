@@ -17,7 +17,7 @@ class UserService {
 
     public function getAll()
     {
-        return $this->userRepository->all();
+        return $this->userRepository->all(['role']);
     }
     
     public function getById($id)
@@ -51,8 +51,22 @@ class UserService {
             if(!$user){
                 throw new Exception('không tìm thấy User');
             }
-            
             if( $this->userRepository->update($id,['status' => 'unable'])){
+                return true;
+            }
+            return false;
+        } catch(Exception $e){
+            throw new Exception('sửa không thành công '. $e->getMessage());
+        }
+    }
+
+    public function unLock($id) {
+        try{
+            $user = $this->userRepository->find($id);
+            if(!$user){
+                throw new Exception('không tìm thấy User');
+            }
+            if( $this->userRepository->update($id,['status' => 'enable'])){
                 return true;
             }
             return false;

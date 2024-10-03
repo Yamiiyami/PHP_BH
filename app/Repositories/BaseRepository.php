@@ -55,6 +55,15 @@ class BaseRepository
         return $this->model->with($relations)->where($column, $value)->get();
     }
 
+    public function findAndRtnId(array $conditions){
+        $query = $this->model;
+
+        foreach($conditions as $column => $value ){
+            $query->where($column,$value);
+        }
+        return $query->first();
+    }
+
     public function paginate(int $perPage = 15)
     {
         return $this->model->paginate($perPage);
@@ -80,15 +89,6 @@ class BaseRepository
         return $this->model->updateOrCreate($attributes, $values);
     }
 
-    public function deleteById($id)
-    {
-        $record = $this->model->find($id);
-        if ($record) {
-            return $record->delete();
-        }
-        return false;
-    }
-
     public function bulkInsert(array $data)
     {
         return $this->model->insert($data);
@@ -97,6 +97,15 @@ class BaseRepository
     public function exists(string $column, $value)
     {
         return $this->model->where($column, $value)->exists();
+    }
+
+    public function exitstsWhere(array $conditions){
+        $query = $this->model;
+
+        foreach($conditions as $column => $value){
+            $query->where($column,$value);
+        }
+        return $query->exists();
     }
 
     public function search(array $columns, string $keyword)

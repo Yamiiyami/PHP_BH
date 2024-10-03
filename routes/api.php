@@ -13,12 +13,13 @@ Route::group([
     'prefix' => 'customer'
 ], function ($router) {
     //jwt.role
-    Route::get('/getall', [CustomerController::class,'index']);
-    Route::get('/getbyid/{id}', [CustomerController::class,'show']);
+    Route::get('/getall', [CustomerController::class,'index'])->middleware('jwt.role:Admin');
+    Route::get('/getbyid/{id}', [CustomerController::class,'show'])->middleware('jwt.role:Admin');
     Route::post('/create', [CustomerController::class,'infor'])->middleware('jwt.auth');
     Route::put('/lock/{id}', [CustomerController::class,'lockUser'])->middleware('jwt.role:Admin');
+    Route::put('/unlock/{id}', [CustomerController::class,'unLock'])->middleware('jwt.role:Admin');
     Route::put('/update', [CustomerController::class,'update']);
-    Route::delete('/delete', [CustomerController::class,'destroy']);
+    Route::delete('/delete', [CustomerController::class,'destroy'])->middleware('jwt.role:Admin');
 
 });
 Route::group([

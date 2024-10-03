@@ -6,6 +6,7 @@ use App\Repositories\Contracts\ICartInforRepository;
 use App\Repositories\Contracts\ICartRepository;
 
 use Exception;
+use Facade\FlareClient\Http\Response;
 use Illuminate\Support\Facades\DB;
 
 class CartService
@@ -33,32 +34,13 @@ class CartService
         return $this->cartRepository->findAllBy('cate_id',$id);
     }
 
-    public function create(array $cart, array $products)
-    {
-        DB::beginTransaction();
-        try{
-            $user = auth()->user();
-            $request['customer_id'] = $user->id;
-            $idcart = $this->cartRepository->create($cart);
-
-            if(!$products){
-                throw new Exception('không có sản phẩm');
-            }
-
-            foreach($products as $product){
-                $productinfor = DB::table('products')->where('id',$product['product_id'])->first();
-                $product['price'] = $productinfor->price;
-                $product['cart_id'] = $idcart;
-                if(!$this->cartInforRepository->create($product)){
-                    throw new Exception('không thể thêm sản phẩm vào giỏ');
-                }
-            }
-            DB::commit();
-            return response()->json(['message' => 'thêm sản phẩm thành công'],201);
-        }catch(Exception $e){
-            DB::rollBack();
-            return response()->json(['message' => 'không thêm được sản phẩm', 'error' => $e->getMessage()],500);
+    public function create(){
+        $user = auth()->user();
+        if(!$this->cartRepository->exitstsWhere( ['customer_id'=>$user->id,'status' => 'pending'])){
+            $this->cartRepository->create(['user_id'=>$user->id]);
+            return Response()->json(['message','tạo thành công'],201);
         } 
+        return Response()->json(['message','đã có cart'],409);
     }
 
     public function update($id, $data)
