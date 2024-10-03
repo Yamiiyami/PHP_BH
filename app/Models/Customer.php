@@ -29,6 +29,6 @@ class Customer extends Authenticatable implements JWTSubject
         return $this->hasMany(cart::class);
     }
     public function role() : BelongsTo {
-        return $this->belongsTo(Category::class);
+        return $this->belongsTo(Role::class,'role_id');
     }
 }
