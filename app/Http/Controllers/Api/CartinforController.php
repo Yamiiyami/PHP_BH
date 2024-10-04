@@ -13,7 +13,19 @@ class CartinforController extends Controller
     public function __construct(CartInforService $cartInforService){
         $this->cartInforService = $cartInforService;
     }
+    public function remove($id){
+        try{
+            if( $this->cartInforService->remove($id)){
+                return response()->json(['message'=>'xoá thành công'],200); 
+           }
+           return response()->json(['message'=>'xoá không được'],406); 
+        }catch(Exception $e){
+           return response()->json(['error'=>$e->getMessage()],500); 
 
+        }
+       
+
+    }
     public function create(Request $request){
         try{
 

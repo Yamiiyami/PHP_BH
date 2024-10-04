@@ -6,6 +6,7 @@ use App\Repositories\Contracts\IAuthRepository;
 use App\Repositories\Contracts\ICartInforRepository;
 use App\Repositories\Contracts\ICartRepository;
 use App\Repositories\Contracts\ICategoryRepository;
+use App\Repositories\Contracts\IOrderRepository;
 use App\Repositories\Contracts\IPictureRepository;
 use App\Repositories\Contracts\IProductRepository;
 use App\Repositories\Contracts\IRoleRepository;
@@ -14,6 +15,7 @@ use App\Repositories\Eloquent\AuthRepository;
 use App\Repositories\Eloquent\CartInforRepository;
 use App\Repositories\Eloquent\CartRepository;
 use App\Repositories\Eloquent\CategoryRepository;
+use App\Repositories\Eloquent\OrderRepository;
 use App\Repositories\Eloquent\PictureRepository;
 use App\Repositories\Eloquent\ProductRepository;
 use App\Repositories\Eloquent\RoleRepository;
@@ -36,6 +38,7 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(ICartRepository::class,CartRepository::class);
         $this->app->bind(ICartInforRepository::class,CartInforRepository::class);
         $this->app->bind(IRoleRepository::class,RoleRepository::class);
+        $this->app->bind(IOrderRepository::class,OrderRepository::class);
         
     }
 

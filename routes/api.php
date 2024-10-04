@@ -17,7 +17,7 @@ Route::group([
     //jwt.role
     Route::get('/getall', [CustomerController::class,'index'])->middleware('jwt.role:Admin');
     Route::get('/getbyid/{id}', [CustomerController::class,'show'])->middleware('jwt.role:Admin');
-    Route::post('/create', [CustomerController::class,'infor'])->middleware('jwt.auth');
+    Route::post('/create', [CustomerController::class,'store'])->middleware('jwt.auth');
     Route::put('/lock/{id}', [CustomerController::class,'lockUser'])->middleware('jwt.role:Admin');
     Route::put('/unlock/{id}', [CustomerController::class,'unLock'])->middleware('jwt.role:Admin');
     Route::put('/update', [CustomerController::class,'update']);
@@ -64,9 +64,11 @@ Route::group([
     Route::post('/delete/{id}',[CartController::class,'destroy'])->middleware('jwt.auth');
     Route::post('/create',[CartController::class,'store'])->middleware('jwt.auth');
 });
+
 Route::group([
     'prefix' => 'cartinfor'
 ],function ($router){
+    Route::delete('/remove',[CartinforController::class,'remove'])->middleware('jwt.auth');
 
     Route::post('/create',[CartinforController::class,'create'])->middleware('jwt.auth');
 });

@@ -33,6 +33,7 @@ class StoreCustomerRequest extends FormRequest
             'phone' => 'required|digits_between:10,15',
             'status' => 'nullable|in:enable,unable',
             'role_id' => 'required|exists:roles,id'
+
         ];
     }
 

@@ -21,6 +21,22 @@ class CartInforService
         $this->cartinforRepository = $cartinforRepository;
     }
 
+    public function remove($idProduct){
+        $user = auth()->user();
+        $cart = $this->cartinforRepository->findWithWhere(['user_id'=>$user->id,'status'=>'pending']);
+        if(!$cart){
+            return false;
+        }
+        $cartinfor = $this->cartinforRepository->findWithWhere(['product_id',$idProduct,'cart_id'=>$cart->id]);
+        if(!$cartinfor){
+            return false;
+        }
+        if($this->cartinforRepository->delete($cartinfor->id)){
+            return true;
+        } 
+        return false;
+    }
+
     public function create(array $products)
     {
         $cart = $this->cartRepository->findBy('status', 'pending');
@@ -48,4 +64,7 @@ class CartInforService
         }
         return response()->json(['message' => 'Thêm sản phẩm vào giỏ hàng thành công.'], 201);
     }
+
+
+
 }
