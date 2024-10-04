@@ -33,13 +33,14 @@ class CartService
         return $this->cartRepository->findAllBy('cate_id',$id);
     }
 
-    public function create($user){
+    public function create(){
         try{
+            $user = auth()->user();
             if(!$this->cartRepository->exitstsWhere( ['customer_id'=>$user->id,'status' => 'pending'])){
-                $this->cartRepository->create(['customer_id'=>$user->id]);
-                return true;
+                $cart = $this->cartRepository->create(['customer_id'=>$user->id]);
+                return $cart;
             } 
-            return false;
+            return null;
 
         }catch(Exception $e){
             return Response()->json(['error',$e->getMessage()],500);

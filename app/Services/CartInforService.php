@@ -10,11 +10,14 @@ class CartInforService
 {
     protected $cartinforRepository;
     protected $cartRepository;
+    protected $cartService;
+
     protected $productRepository;
-    public function __construct(ICartInforRepository $cartinforRepository, ICartRepository $cartRepository, IProductRepository $productRepository)
+    public function __construct(ICartInforRepository $cartinforRepository, ICartRepository $cartRepository, IProductRepository $productRepository,CartService $cartService)
     {
         $this->productRepository = $productRepository;
         $this->cartRepository = $cartRepository;
+        $this->cartService = $cartService;
         $this->cartinforRepository = $cartinforRepository;
     }
 
@@ -23,7 +26,7 @@ class CartInforService
         $cart = $this->cartRepository->findBy('status', 'pending');
 
         if (!$cart) {
-            return response()->json(['message' => 'Không tìm thấy giỏ hàng.'], 404);
+            $cart = $this->cartService->create();
         }
 
         foreach ($products as $product) {

@@ -23,8 +23,11 @@ class CartController extends Controller
     public function store()
     {
         try{
-            $user = auth()->user();
-            return $this->cartService->create($user );
+            if($this->cartService->create()){
+                return response()->json(['message: '=>'tao thành công' ],201);
+            } 
+            return response()->json(['message: '=>'giỏ hàng đã tồn tại' ],406);
+
         }catch(Exception $e){
             return response()->json('error : ' . $e->getMessage(),500);
         }
