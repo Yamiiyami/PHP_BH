@@ -31,8 +31,8 @@ class CartInforService
             if (!isset($product['id']) || !isset($product['quantity'])) {
                 return response()->json(['message' => 'Sản phẩm không hợp lệ.'], 400);
             }
-            $cartinfor = $this->cartinforRepository->findAndRtnId(['product_id' => $product['id'], 'carts_id' => $cart->id]);
-            if ($cartinfor !== null) {
+            $cartinfor = $this->cartinforRepository->findWithWhere(['product_id' => $product['id'], 'carts_id' => $cart->id]);
+            if ($cartinfor) {
                 $this->cartinforRepository->update($cartinfor->id, ['quantity' => $cartinfor->quantity + $product['quantity']]);
             } else {
                 $produ = $this->productRepository->find($product['id']);

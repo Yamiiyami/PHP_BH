@@ -55,9 +55,8 @@ class BaseRepository
         return $this->model->with($relations)->where($column, $value)->get();
     }
 
-    public function findAndRtnId(array $conditions){
-        $query = $this->model;
-
+    public function findWithWhere(array $conditions){
+        $query = $this->model->newQuery();
         foreach($conditions as $column => $value ){
             $query->where($column,$value);
         }
