@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Services\CartInforService;
-use Facade\Ignition\QueryRecorder\Query;
+use Exception;
 use Illuminate\Http\Request;
 
 class CartinforController extends Controller
@@ -15,8 +15,15 @@ class CartinforController extends Controller
     }
 
     public function create(Request $request){
+        try{
 
-        $data = $request->only('');
-        //$this->cartInforService->create();
+            $data = $request->only('products');
+            $this->cartInforService->create($data['products']);
+            return response()->json(['tạo thành công: '],201);
+
+        }catch(Exception $e){
+            return response()->json(['error: '. $e->getMessage()],500);
+        }
+       
     }
 }

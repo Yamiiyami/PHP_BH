@@ -6,8 +6,7 @@ use App\Repositories\Contracts\ICartInforRepository;
 use App\Repositories\Contracts\ICartRepository;
 
 use Exception;
-use Facade\FlareClient\Http\Response;
-use Illuminate\Support\Facades\DB;
+
 
 class CartService
 {
@@ -34,13 +33,17 @@ class CartService
         return $this->cartRepository->findAllBy('cate_id',$id);
     }
 
-    public function create(){
-        $user = auth()->user();
-        if(!$this->cartRepository->exitstsWhere( ['customer_id'=>$user->id,'status' => 'pending'])){
-            $this->cartRepository->create(['user_id'=>$user->id]);
-            return Response()->json(['message','tạo thành công'],201);
-        } 
-        return Response()->json(['message','đã có cart'],409);
+    public function create($user){
+        try{
+            if(!$this->cartRepository->exitstsWhere( ['customer_id'=>$user->id,'status' => 'pending'])){
+                $this->cartRepository->create(['customer_id'=>$user->id]);
+                return Response()->json(['message','tạo thành công'],201);
+            } 
+            return Response()->json(['message','đã có cart'],409);
+
+        }catch(Exception $e){
+            return Response()->json(['error',$e->getMessage()],500);
+        }
     }
 
     public function update($id, $data)

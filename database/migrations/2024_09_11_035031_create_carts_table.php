@@ -11,10 +11,10 @@ class CreateCartsTable extends Migration
     {
         Schema::create('carts', function (Blueprint $table) {
             $table->id();
-            $table->string('address');
-            $table->text('notes');
-            $table->string('phone');
-            $table->dateTime('create_at');
+            // $table->string('address');
+            // $table->text('notes');
+            // $table->string('phone');
+            // $table->dateTime('create_at');
             $table->foreignId('customer_id')->constrained('customers')->onDelete('cascade');
             $table->timestamps();
         });

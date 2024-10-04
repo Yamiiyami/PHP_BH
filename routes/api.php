@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\CartController;
+use App\Http\Controllers\Api\CartinforController;
 use App\Http\Controllers\APi\CategoryController;
 
 use Illuminate\Support\Facades\Route;
@@ -55,6 +56,12 @@ Route::group([
     Route::post('/update/{id}',[CartController::class,'update'])->middleware('jwt.auth');
     Route::post('/delete/{id}',[CartController::class,'destroy'])->middleware('jwt.auth');
     Route::post('/create',[CartController::class,'store'])->middleware('jwt.auth');
+});
+Route::group([
+    'prefix' => 'cartinfor'
+],function ($router){
+
+    Route::post('/create',[CartinforController::class,'create'])->middleware('jwt.auth');
 });
 
 Route::group(['prefix' => 'cate'],function(){

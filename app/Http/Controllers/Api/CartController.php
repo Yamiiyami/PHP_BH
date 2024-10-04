@@ -4,18 +4,14 @@ namespace App\Http\Controllers\Api;
 
 use Exception;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\StoreCartRepuset;
-use App\Services\CartInforService;
 use App\Services\CartService;
 use Illuminate\Http\Request;
 
 class CartController extends Controller
 {
     protected $cartService;
-    protected $cartInforService;
-    public function __construct(CartService $cartService,CartInforService $cartInforService){
+    public function __construct(CartService $cartService ){
         $this->cartService = $cartService;
-        $this->cartInforService = $cartInforService;
     }
 
     public function index()
@@ -27,7 +23,8 @@ class CartController extends Controller
     public function store()
     {
         try{
-            return $this->cartService->create();
+            $user = auth()->user();
+            return $this->cartService->create($user );
         }catch(Exception $e){
             return response()->json('error : ' . $e->getMessage(),500);
         }
