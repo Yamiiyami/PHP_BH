@@ -8,6 +8,7 @@ interface ICartRepository {
     public function create(array $data);
     public function update($id, array $data);
     public function findBy(string $column, $value, $relations=[]);
+    public function findWithWhere(array $conditions);
     public function delete($id);
     public function exitstsWhere(array $conditions);
     public function findAllBy(string $column, $value);

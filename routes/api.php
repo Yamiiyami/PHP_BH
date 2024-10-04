@@ -68,8 +68,7 @@ Route::group([
 Route::group([
     'prefix' => 'cartinfor'
 ],function ($router){
-    Route::delete('/remove',[CartinforController::class,'remove'])->middleware('jwt.auth');
-
+    Route::delete('/remove/{id}',[CartinforController::class,'remove'])->middleware('jwt.auth');
     Route::post('/create',[CartinforController::class,'create'])->middleware('jwt.auth');
 });
 

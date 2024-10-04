@@ -23,11 +23,11 @@ class CartInforService
 
     public function remove($idProduct){
         $user = auth()->user();
-        $cart = $this->cartinforRepository->findWithWhere(['user_id'=>$user->id,'status'=>'pending']);
+        $cart = $this->cartRepository->findWithWhere(['customer_id'=>$user->id,'status'=>'pending']);
         if(!$cart){
             return false;
         }
-        $cartinfor = $this->cartinforRepository->findWithWhere(['product_id',$idProduct,'cart_id'=>$cart->id]);
+        $cartinfor = $this->cartinforRepository->findWithWhere(['product_id'=>$idProduct,'carts_id'=>$cart->id]);
         if(!$cartinfor){
             return false;
         }
