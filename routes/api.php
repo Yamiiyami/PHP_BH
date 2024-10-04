@@ -51,7 +51,7 @@ Route::group([
 Route::group([
     'prefix' => 'role'
 ],function ($router){
-    Route::post('/getall',[RoleController::class,'index'])->middleware('jwt.role:Admin');
+    Route::get('/getall',[RoleController::class,'index'])->middleware('jwt.role:Admin');
 });
 
 Route::group([

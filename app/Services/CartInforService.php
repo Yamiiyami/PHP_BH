@@ -14,7 +14,6 @@ class CartInforService
     public function __construct(ICartInforRepository $cartinforRepository, ICartRepository $cartRepository, IProductRepository $productRepository)
     {
         $this->productRepository = $productRepository;
-
         $this->cartRepository = $cartRepository;
         $this->cartinforRepository = $cartinforRepository;
     }
