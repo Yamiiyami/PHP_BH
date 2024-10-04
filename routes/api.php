@@ -8,6 +8,7 @@ use App\Http\Controllers\APi\CategoryController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\CustomerController;
 use App\Http\Controllers\Api\ProductController;
+use App\Http\Controllers\Api\RoleController;
 
 Route::group([
     'namespace' => 'App\Http\Controllers',
@@ -45,6 +46,12 @@ Route::group([
     Route::post('/logout', [AuthController::class,'logout']);
     Route::get('/profile', [AuthController::class,'infor'])->middleware('jwt.auth');
     Route::post('/register', [AuthController::class,'Register']);
+});
+
+Route::group([
+    'prefix' => 'role'
+],function ($router){
+    Route::post('/getall',[RoleController::class,'index'])->middleware('jwt.role:Admin');
 });
 
 Route::group([
